@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { login } from "../api";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Login() {
   const [form, setForm] = useState({ email: "", password: "" });
-  const [message, setMessage] = useState("");
-  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleChange = (e) =>
@@ -13,15 +13,13 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
-    setMessage("");
     const res = await login(form);
     if (res.token) {
-      setMessage(res.message || "Login successful!");
+      toast.success(res.message || "Login successful!");
       localStorage.setItem("token", res.token);
       setTimeout(() => navigate("/home"), 1000);
     } else {
-      setError(res.message || "Login failed");
+      toast.error(res.message || "Login failed");
     }
   };
 
@@ -56,8 +54,6 @@ export default function Login() {
         >
           Login
         </button>
-        {message && <div className="mt-2 text-green-600">{message}</div>}
-        {error && <div className="mt-2 text-red-600">{error}</div>}
       </form>
       <button
         className="mt-4 text-blue-500"

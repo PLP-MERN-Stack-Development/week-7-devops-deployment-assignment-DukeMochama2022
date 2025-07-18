@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { register } from "../api";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Register() {
   const [form, setForm] = useState({ username: "", email: "", password: "" });
-  const [message, setMessage] = useState("");
-  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleChange = (e) =>
@@ -13,15 +13,13 @@ export default function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
-    setMessage("");
     const res = await register(form);
     if (res.token) {
-      setMessage(res.message || "Registration successful!");
+      toast.success(res.message || "Registration successful!");
       localStorage.setItem("token", res.token);
       setTimeout(() => navigate("/login"), 1000);
     } else {
-      setError(res.message || "Registration failed");
+      toast.error(res.message || "Registration failed");
     }
   };
 
@@ -64,8 +62,6 @@ export default function Register() {
         >
           Register
         </button>
-        {message && <div className="mt-2 text-green-600">{message}</div>}
-        {error && <div className="mt-2 text-red-600">{error}</div>}
       </form>
       <button className="mt-4 text-blue-500" onClick={() => navigate("/login")}>
         Already have an account? Login

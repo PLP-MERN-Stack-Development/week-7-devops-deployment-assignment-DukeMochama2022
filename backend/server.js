@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(morgan("dev"));
 app.use(
   cors({
-    origin: ["https://auth-7i65.vercel.app"],
+    origin: ["https://auth-qecb.vercel.app/"],
     credentials: true,
   })
 );

@@ -9,10 +9,12 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.use(morgan("dev"));
-app.use(cors({
-  origin: ["https://auth-7i65.vercel.app"],
-  credentials:true
-}));
+app.use(
+  cors({
+    origin: ["https://auth-7i65.vercel.app"],
+    credentials: true,
+  })
+);
 
 // MongoDB Connection
 mongoose
